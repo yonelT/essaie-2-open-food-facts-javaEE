@@ -23,6 +23,32 @@
 <body>
 	<h1>Liste des produits</h1>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Liste des ingrédients</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+<%--          <% List<Ingredient> listIngredients = (List<Ingredient>) request.getAttribute("listeDeIngredients"); --%>
+						
+// 		for (int i = 0; i < listIngredients.size() ; i++){
+<%-- 		%> --%>
+<%-- 			<%=listIngredients.get(i).getCategorie()%> --%>
+<%-- 		<% } %>  --%>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 	<table class="table">
 		<thead class="thead-dark">
 			<tr>
@@ -43,7 +69,7 @@
 			<tr>
 				<td><%=listProduits.get(i).getCategorie()%> </td>
 				<td><%=listProduits.get(i).getMarque()%> </td>
-				<td><%=listProduits.get(i).getNom()%> </td>
+				<td><a href="" data-toggle="modal" data-target="#exampleModal"><%=listProduits.get(i).getNom()%></a></td>
 				<td><%=listProduits.get(i).getGrade()%> </td>
 				<td><%=listProduits.get(i).getEnergie()%> </td>
 				<td><%=listProduits.get(i).getGraisse()%> </td>
