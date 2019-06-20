@@ -74,6 +74,27 @@ public class ProduitDao {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//Main pour tester la méthode getListProduits()
 	public static void main(String[] args) throws SQLException{
 		ProduitDao prdDao = new ProduitDao();
