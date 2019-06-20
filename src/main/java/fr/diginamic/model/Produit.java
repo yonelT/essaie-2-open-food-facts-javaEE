@@ -20,12 +20,28 @@ public class Produit {
 	private String proteines = null;
 	private String sel = null;
 	private String sucre = null;
+	private String categorie = null;
+	private String marque = null;
+	
 	
 	/**
 	 * Déclaration du constructeur par défaut
 	 */
 	public Produit(){
 		
+	}
+	
+	/**
+	 * Constructeur du premier besoin utilisateur
+	 */
+	public Produit(String categorie, String marque, String nom, String grade, String energie, String graisse){
+
+		this.categorie = categorie;
+		this.marque = marque;
+		this.nom = nom;
+		this.grade = grade;
+		this.energie = energie;
+		this.graisse = graisse;
 	}
 
 	public int getId() {
@@ -114,6 +130,22 @@ public class Produit {
 
 	public void setSucre(String sucre) {
 		this.sucre = sucre;
+	}
+
+	public String getCategorie() {
+		return categorie;
+	}
+
+	public void setCategorie(String categorie) {
+		this.categorie = categorie;
+	}
+
+	public String getMarque() {
+		return marque;
+	}
+
+	public void setMarque(String marque) {
+		this.marque = marque;
 	}
 
 }
