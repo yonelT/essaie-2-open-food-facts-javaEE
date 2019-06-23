@@ -1,44 +1,37 @@
 package fr.diginamic.model;
 
-/**
- * @author Yonel
- * Class définissant un produit
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class Produit {
 	
-	/**
-	 * Déclaration des variables de la table Produit
-	 */
 	private int id = 0;
-	private String energie = null;
-	private String fibres = null;
-	private String grade = null;
-	private String graisse = null;
+	private String categorie = null;
+	private String marque = null;
 	private String nom = null;
+	private String grade = null;
+	private String energie = null;
+	private String graisse = null;
+	private List<Ingredient> listeDingredients = new ArrayList<Ingredient>(); 
+	
+	//Unused variables
+	private String fibres = null;
 	private String pays = null;
 	private String paysManufact = null;
 	private String proteines = null;
 	private String sel = null;
 	private String sucre = null;
-	private String categorie = null;
-	private String marque = null;
 	
-	
-	/**
-	 * Déclaration du constructeur par défaut
-	 */
-	public Produit(){
-		
+	public Produit() {
+		super();
 	}
-	
-	/**
-	 * Constructeur du premier besoin utilisateur
-	 */
-	public Produit(String categorie, String marque, String nom, String grade, String energie, String graisse){
 
+	public Produit(int id, String categorie, String marque, String nomProduit, String grade, String energie,  String graisse) {
+		super();
+		this.id = id;
 		this.categorie = categorie;
 		this.marque = marque;
-		this.nom = nom;
+		this.nom = nomProduit;
 		this.grade = grade;
 		this.energie = energie;
 		this.graisse = graisse;
@@ -50,6 +43,22 @@ public class Produit {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public String getCategorie() {
+		return categorie;
+	}
+
+	public void setCategorie(String categorie) {
+		this.categorie = categorie;
+	}
+
+	public String getMarque() {
+		return marque;
+	}
+
+	public void setMarque(String marque) {
+		this.marque = marque;
 	}
 
 	public String getEnergie() {
@@ -82,6 +91,14 @@ public class Produit {
 
 	public void setGraisse(String graisse) {
 		this.graisse = graisse;
+	}
+	
+	public List<Ingredient> getListeDingredients() {
+		return listeDingredients;
+	}
+
+	public void setListeDingredients(List<Ingredient> listeDingredients) {
+		this.listeDingredients = listeDingredients;
 	}
 
 	public String getNom() {
@@ -131,21 +148,5 @@ public class Produit {
 	public void setSucre(String sucre) {
 		this.sucre = sucre;
 	}
-
-	public String getCategorie() {
-		return categorie;
-	}
-
-	public void setCategorie(String categorie) {
-		this.categorie = categorie;
-	}
-
-	public String getMarque() {
-		return marque;
-	}
-
-	public void setMarque(String marque) {
-		this.marque = marque;
-	}
-
+	
 }

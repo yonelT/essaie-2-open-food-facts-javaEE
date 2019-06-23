@@ -1,22 +1,18 @@
 package fr.diginamic.model;
 
-/**
- * @author Yonel
- * Class définissant une Catégorie
- */
 public class Categorie {
 	
-	/**
-	 * Déclaration des variables de la table SQL categories
-	 */
 	private int id = 0;
 	private String nom = null;
-
-	/**
-	 * Déclaration du constructeur par défaut
-	 */
-	public Categorie(){
+	
+	Categorie(){
 		
+	}
+
+	public Categorie(int id, String nom) {
+		super();
+		this.id = id;
+		this.nom = nom;
 	}
 
 	public int getId() {
@@ -34,5 +30,6 @@ public class Categorie {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
+	
 
 }

@@ -12,97 +12,78 @@ import java.util.ResourceBundle;
 import fr.diginamic.model.Produit;
 
 public class ProduitDao {
-
-	static List<Produit> maListeDeProduits = new ArrayList<Produit>();
 	
-	public List<Produit> getListProduits() throws SQLException {
+	Connection connexion = null;
+	Statement instruction = null;
+	ResultSet curseur = null;
+	ResultSet curseur2 = null;
+	
+	ResourceBundle monFichierDeConf = ResourceBundle.getBundle("connexionDB");
+	String url = monFichierDeConf.getString("connexionDB.url");
+	String user = monFichierDeConf.getString("connexionDB.user");
+	String password = monFichierDeConf.getString("connexionDB.password");
+	String query = null;
+	String query2 = null;
+	
+	public List<Produit> getProduits() {
 		
-		List<Produit> listProduits = new ArrayList<Produit>();
+		List<Produit> listeDeProduits = new ArrayList<Produit>();
+		List<String> listIngredients = new ArrayList<String>();
 		
-		//Elements de connexion à la DB openfoodfacts
-		ResourceBundle monFichierDeConf = ResourceBundle.getBundle("authentication");
-		String driverName = monFichierDeConf.getString("authentication.driver");
-		String url = monFichierDeConf.getString("authentication.url");
-		String user = monFichierDeConf.getString("authentication.user");
-		String password = monFichierDeConf.getString("authentication.password");
-		
-		// Déclaration de la Connection puis du Statement et d'un ResultSet
-		Connection connexionBase = null;
-		Statement statement = null;
-		ResultSet curseur = null;
-		
-		//Déclaration des variables du produit courant
+		int idProduitCourant = 0;
 		String categorieProduitCourant = null;
 		String marqueProduitCourant = null;
 		String nomProduitCourant = null;
 		String gradeProduitCourant = null;
 		String energieProduitCourant = null;
 		String graisseProduitCourant = null;
-
-		// Chargement du driver MySQL
+		
 		try {
-			Class.forName(driverName);
-		} catch (ClassNotFoundException e) {
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+			connexion = DriverManager.getConnection(url, user, password);
+			
+			instruction = connexion.createStatement();
+			
+			query = "select produits.id as ID_PRODUIT, categories.nom as CATEGORIE, marques.nom as MARQUE, produits.nom as NOM_PRODUIT, produits.grade as GRADE, produits.energie as ENERGIE, produits.graisse as GRAISSE from categories, marques, produits where categories.id=produits.id_cat and marques.id=produits.id_mrq limit 100;";
+			curseur = instruction.executeQuery(query);
+			
+//			query2 = "select produits.nom as PRODUIT, ingredients.nom as INGREDIENTS from ingredients, produits_ing, produits where produits.id=produits_ing.id_prd and ingredients.id=produits_ing.id_ing order by produits.id;";
+//			curseur2 = instruction.executeQuery(query2);
+//	
+//			String nomProduitCourant2 = "Fromage basilic & pignons de pin 10 x 16 g";
+//			String nomProduit =null;
+//			
+//			String nomIngredient=null;
+//			
+			
+			while(curseur.next()) {
+				idProduitCourant = curseur.getInt("ID_PRODUIT");
+				categorieProduitCourant = curseur.getString("CATEGORIE");
+				marqueProduitCourant = curseur.getString("MARQUE");
+				nomProduitCourant = curseur.getString("NOM_PRODUIT");
+				gradeProduitCourant = curseur.getString("GRADE");
+				energieProduitCourant = curseur.getString("ENERGIE");
+				graisseProduitCourant = curseur.getString("GRAISSE");
+				
+//				curseur2.next();
+//					nomProduit = curseur2.getString("PRODUIT");
+//					nomIngredient = curseur2.getString("INGREDIENTS");
+//					while(nomProduitCourant.equals(nomProduit)) {
+//
+//					listIngredients.add("INGREDIENTS");
+//					
+//				}
+				
+				Produit produitCourant = new Produit(idProduitCourant,categorieProduitCourant,marqueProduitCourant,nomProduitCourant,gradeProduitCourant,energieProduitCourant,graisseProduitCourant); 
+				listeDeProduits.add(produitCourant);
+			}
+			
+		} catch (SQLException e) {
 			e.printStackTrace(); // TODO Auto-generated catch block
 		}
 		
-		//Connexion à la DB
-		connexionBase = DriverManager.getConnection(url, user, password);
-		
-		//Initialisation du Statement permettant de générer les requetes SQL à la DB
-		statement = connexionBase.createStatement();
+		return listeDeProduits;
+	}
+	
 
-		// Requête permettant de rechercher des produits selon les critères
-		// suivants : catégorie, marque, nom, grade nutritionnel, énergie,
-		// graisse pour 100 produits
-		curseur = statement.executeQuery(
-				"SELECT categories.nom AS \"CATEGORIE\", marques.nom AS \"MARQUE\", produits.nom AS \"PRODUIT\", produits.grade AS \"GRADE NUTRITIONNEL\", produits.energie AS \"ENERGIE\", produits.graisse AS \"GRAISSE\" FROM produits, categories, marques WHERE produits.id_cat=categories.id AND produits.id_mrq=marques.id LIMIT 100;");
-		
-		//"while" qui parcour chaque ligne du curseur, chaque ligne étant un produit différent
-		while (curseur.next()) {
-			categorieProduitCourant = curseur.getString("CATEGORIE");
-			marqueProduitCourant = curseur.getString("MARQUE");
-			nomProduitCourant = curseur.getString("PRODUIT");
-			gradeProduitCourant = curseur.getString("GRADE NUTRITIONNEL");
-			energieProduitCourant = curseur.getString("ENERGIE");
-			graisseProduitCourant = curseur.getString("GRAISSE");
-			
-			//ajoute une ligne (un produit) à une liste de produits
-			listProduits.add(new Produit(categorieProduitCourant, marqueProduitCourant, nomProduitCourant, gradeProduitCourant, energieProduitCourant, graisseProduitCourant));
-		}
-		return listProduits;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//Main pour tester la méthode getListProduits()
-	public static void main(String[] args) throws SQLException{
-		ProduitDao prdDao = new ProduitDao();
-		
-		maListeDeProduits = prdDao.getListProduits();
-		
-		for (Produit produit : maListeDeProduits){
-			System.out.println("CATEGORIE: " + produit.getCategorie() + " | MARQUE: " + produit.getMarque() + " | NOM: " + produit.getNom() + " | GRADE: " + produit.getGrade() + " | ENERGIE: " + produit.getEnergie() + " | GRAISSE: " + produit.getGraisse());
-		}
-	}
 }
