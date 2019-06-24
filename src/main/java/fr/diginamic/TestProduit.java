@@ -16,7 +16,7 @@ public class TestProduit {
 		
 		System.out.println("Liste des produits \"forEach\"");
 		for (Produit produit : listProduit) {
-			System.out.println("Id: " + produit.getId() + " | " + "Categorie: " + produit.getCategorie() + " | " + "Marque: " + produit.getMarque() + " | " + "Nom: " + produit.getNom() + " | " + "Grade: " + produit.getGrade() + " | " + "Energie: " + produit.getEnergie() + " | " + "Graisse: " + produit.getGraisse());
+			System.out.println("Id: " + produit.getId() + " | " + "Nom: " + produit.getNom() + " | " + "Ingrédients:" + produit.getListeDingredients());
 		}
 
 	}

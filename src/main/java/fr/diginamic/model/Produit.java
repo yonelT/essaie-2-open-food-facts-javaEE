@@ -12,7 +12,7 @@ public class Produit {
 	private String grade = null;
 	private String energie = null;
 	private String graisse = null;
-	private List<Ingredient> listeDingredients = new ArrayList<Ingredient>(); 
+	private List<String> listeDingredients = new ArrayList<String>(); 
 	
 	//Unused variables
 	private String fibres = null;
@@ -26,7 +26,7 @@ public class Produit {
 		super();
 	}
 
-	public Produit(int id, String categorie, String marque, String nomProduit, String grade, String energie,  String graisse) {
+	public Produit(int id, String categorie, String marque, String nomProduit, String grade, String energie,  String graisse, List<String> listeDingredients) {
 		super();
 		this.id = id;
 		this.categorie = categorie;
@@ -35,6 +35,7 @@ public class Produit {
 		this.grade = grade;
 		this.energie = energie;
 		this.graisse = graisse;
+		this.listeDingredients = listeDingredients;
 	}
 
 	public int getId() {
@@ -93,11 +94,11 @@ public class Produit {
 		this.graisse = graisse;
 	}
 	
-	public List<Ingredient> getListeDingredients() {
+	public List<String> getListeDingredients() {
 		return listeDingredients;
 	}
 
-	public void setListeDingredients(List<Ingredient> listeDingredients) {
+	public void setListeDingredients(List<String> listeDingredients) {
 		this.listeDingredients = listeDingredients;
 	}
 
