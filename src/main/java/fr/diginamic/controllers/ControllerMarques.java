@@ -26,7 +26,33 @@ public class ControllerMarques extends HttpServlet {
 		
 		req.setAttribute("marques", ListMarque);
 		
+		//le dispatcher permet de garder les info en internes (req et resp) ; attention les redirect servent a rediriger vers des pages plutot externes pckelle ne gardent aucune données
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/marques.jsp");
 		dispatcher.forward(req, resp);
+	}
+	
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		int newId = Integer.parseInt(req.getParameter("id"));
+		String newNomCat = req.getParameter("nomCat");
+		
+		//Marque newMarque = new Marque(newId,newNomCat);
+		MarqueDao marqueDao = new MarqueDao();
+		
+		marqueDao.ajouterMarque(newId, newNomCat);
+		List<Marque> ListMarque = new ArrayList<Marque>();
+		
+ListMarque = marqueDao.getMarque();
+		
+		req.setAttribute("marques", ListMarque);
+		
+		
+		//le dispatcher permet de garder les info en internes (req et resp) ; attention les redirect servent a rediriger vers des pages plutot externes pckelle ne gardent aucune donnée
+		//resp.sendRedirect("/openff/marques2");
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/marques.jsp");
+		dispatcher.forward(req, resp);
+
 	}
 }

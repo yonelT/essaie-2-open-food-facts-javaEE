@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import fr.diginamic.exception.TechnicalException;
 import fr.diginamic.model.Categorie;
 
 public class CategorieDao {
@@ -48,6 +49,25 @@ public class CategorieDao {
 		
 	} catch (SQLException e) {
 		e.printStackTrace(); // TODO Auto-generated catch block
+	} finally {
+		try {
+			// fermeture des ResultSet
+			if (curseur != null) {
+				curseur.close();
+			}
+
+			// Fermeture des Statements
+			if (statement != null) {
+				statement.close();
+			}
+
+			// fermeture de la connexion JDBC
+			if (maConnexion != null) {
+				maConnexion.close();
+			}
+		} catch (SQLException e) {
+			throw new TechnicalException("La déconnexion à la base a échoué");
+		}
 	}
 	
 	return listeDeCategories;

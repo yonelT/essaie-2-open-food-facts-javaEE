@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import fr.diginamic.exception.TechnicalException;
 import fr.diginamic.model.Marque;
 
 public class MarqueDao {
@@ -48,9 +49,75 @@ public class MarqueDao {
 			
 		} catch (SQLException e) {
 			e.printStackTrace(); // TODO Auto-generated catch block
+		} finally {
+			try {
+				// fermeture des ResultSet
+				if (curseur != null) {
+					curseur.close();
+				}
+
+				// Fermeture des Statements
+				if (statement != null) {
+					statement.close();
+				}
+
+				// fermeture de la connexion JDBC
+				if (maConnexion != null) {
+					maConnexion.close();
+				}
+			} catch (SQLException e) {
+				throw new TechnicalException("La déconnexion à la base a échoué");
+			}
 		}
 		
 		return listeDeMarque;
+	}
+	
+	
+public void ajouterMarque(int idNewMarque, String nomNewMarque){
+				
+		ResourceBundle monFichierDeConf = ResourceBundle.getBundle("connexionDB");
+		String url = monFichierDeConf.getString("connexionDB.url");
+		String user = monFichierDeConf.getString("connexionDB.user");
+		String password = monFichierDeConf.getString("connexionDB.password");
+		String query = null;
+		
+		try {
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+			
+			maConnexion = DriverManager.getConnection(url,user,password);
+			
+			maConnexion.setAutoCommit(false);
+			
+			statement = maConnexion.createStatement();
+			
+			query = "INSERT INTO MARQUES (marques.id,marques.nom) VALUES (\"" + idNewMarque +"\",\"" + nomNewMarque +"\");";
+			statement.executeUpdate(query);
+
+			maConnexion.commit();
+			
+		} catch (SQLException e) {
+			e.printStackTrace(); // TODO Auto-generated catch block
+		} finally {
+			try {
+				// fermeture des ResultSet
+				if (curseur != null) {
+					curseur.close();
+				}
+
+				// Fermeture des Statements
+				if (statement != null) {
+					statement.close();
+				}
+
+				// fermeture de la connexion JDBC
+				if (maConnexion != null) {
+					maConnexion.close();
+				}
+			} catch (SQLException e) {
+				throw new TechnicalException("La déconnexion à la base a échoué");
+			}
+		}
 	}
 
 }
